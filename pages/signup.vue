@@ -6,13 +6,13 @@
         <nuxt-link to="/">joeeee</nuxt-link>
       </h1>
       <h2 class="subtitle">
-        Sign in
+        Sign up
       </h2>
       <input type="text" placeholder="Email" v-model="email">
       <input type="password" placeholder="Password" v-model="password">
-      <button class="button--grey" @click="signIn">Signin</button>
-      <p>You don't have an account?
-        <nuxt-link to="/signup">create account now!!</nuxt-link>
+      <button class="button--grey" @click="signUp">Signup</button>
+      <p>Do you have an account?
+        <nuxt-link to="/">sign in now!!</nuxt-link>
       </p>
     </div>
   </section>
@@ -32,9 +32,9 @@ export default {
     // AppLogo
   },
   methods: {
-    signIn: function () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(user => {
-        alert('Success!')
+    signUp: function () {
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
+        alert('Create account: ', user.email)
         this.$router.push('/')
       }).catch(error => {
         alert(error.message)

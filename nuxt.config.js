@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -33,10 +35,26 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+      config.plugins.push(
+        new webpack.EnvironmentPlugin(['VUE_APP_APIKEY', 'AUTHDOMAIN', 'DATABASEURL', 'PROJECTID', 'STORAGEBUCKET', 'MESSAGINGSENDERID'])
+      )
+      // config.plugins.push(
+      //   new webpack.EnvironmentPlugin(
+      //     [
+      //       'APIKEY',
+      //       'AUTHDOMAIN',
+      //       'DATABASEURL',
+      //       'PROJECTID',
+      //       'STORAGEBUCKET',
+      //       'MESSAGINGSENDERID'
+      //     ]
+      //   )
+      // )
     }
   },
   plugins: [
-    '~plugins/global'
+    '~plugins/global',
+    '~plugins/firebase'
   ],
   css: [
   ]

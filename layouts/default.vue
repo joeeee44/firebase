@@ -4,10 +4,18 @@
   </div>
 </template>
 
+<script>
+</script>
+
 <style lang="scss" scoped>
 </style>
 
 <style>
+a {
+  text-decoration: none;
+  color: #42b983;
+}
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;

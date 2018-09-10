@@ -6,34 +6,40 @@
         <nuxt-link to="/">joeeee</nuxt-link>
       </h1>
       <h2 class="subtitle">
-        welcom
+        Sign in
       </h2>
-      <button class="button--grey" @click="signInLink">Signin</button>
-      <button class="button--green" @click="signUpLink">Signup</button>
+      <input type="text" placeholder="Email" v-model="email">
+      <input type="password" placeholder="Password" v-model="password">
+      <button class="button--grey" @click="signIn">Signin</button>
+      <p>You don't have an account?
+        <nuxt-link to="/signup">create account now!!</nuxt-link>
+      </p>
     </div>
   </section>
 </template>
 
 <script>
-// import firebase from 'firebase'
-// import auth from '~/plugins/auth'
+import firebase from 'firebase'
+import auth from '~/plugins/auth'
 
 export default {
   data () {
     return {
-      // email: '',
-      // password: ''
+      email: '',
+      password: ''
     }
   },
   components: {
     // AppLogo
   },
   methods: {
-    signInLink: function () {
-      this.$router.push('/signin')
-    },
-    signUpLink: function () {
-      this.$router.push('/signup')
+    signIn: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(user => {
+        alert('Success!')
+        this.$router.push('/home')
+      }).catch(error => {
+        alert(error.message)
+      })
     }
   }
 }

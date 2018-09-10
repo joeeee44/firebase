@@ -1,15 +1,14 @@
 <template>
   <section class="container">
     <div>
-      <app-logo/>
+      <!-- <app&#45;logo/> -->
       <h1 class="title">
         <nuxt-link to="/">joeeee</nuxt-link>
       </h1>
       <h2 class="subtitle">
-        welcom
+        home
       </h2>
-      <button class="button--grey" @click="signInLink">Signin</button>
-      <button class="button--green" @click="signUpLink">Signup</button>
+      <button class="button--grey" @click="chatroomLink">chatroom</button>
     </div>
   </section>
 </template>
@@ -29,11 +28,8 @@ export default {
     // AppLogo
   },
   methods: {
-    signInLink: function () {
-      this.$router.push('/signin')
-    },
-    signUpLink: function () {
-      this.$router.push('/signup')
+    chatroomLink: function () {
+      this.$router.push('/chatroom')
     }
   }
 }

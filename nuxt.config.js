@@ -36,25 +36,21 @@ module.exports = {
         })
       }
       config.plugins.push(
-        new webpack.EnvironmentPlugin(['VUE_APP_APIKEY', 'AUTHDOMAIN', 'DATABASEURL', 'PROJECTID', 'STORAGEBUCKET', 'MESSAGINGSENDERID'])
+        new webpack.EnvironmentPlugin(
+          [
+            'APIKEY',
+            'AUTHDOMAIN',
+            'DATABASEURL',
+            'PROJECTID',
+            'STORAGEBUCKET',
+            'MESSAGINGSENDERID'
+          ]
+        )
       )
-      // config.plugins.push(
-      //   new webpack.EnvironmentPlugin(
-      //     [
-      //       'APIKEY',
-      //       'AUTHDOMAIN',
-      //       'DATABASEURL',
-      //       'PROJECTID',
-      //       'STORAGEBUCKET',
-      //       'MESSAGINGSENDERID'
-      //     ]
-      //   )
-      // )
     }
   },
   plugins: [
-    '~plugins/global',
-    '~plugins/firebase'
+    '~plugins/global'
   ],
   css: [
   ]

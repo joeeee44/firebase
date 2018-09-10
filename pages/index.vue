@@ -20,6 +20,7 @@
 
 <script>
 import firebase from 'firebase'
+import auth from '~/plugins/auth'
 
 export default {
   data () {

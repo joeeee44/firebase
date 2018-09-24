@@ -1,64 +1,87 @@
 <template>
-  <div id="chat" class="container">
-    <h1>Chat Room</h1>
+  <section class="container">
+    <div>
 
-    <button @click="add">add</button>
-    <button @click="get">get</button>
-    {{test}}
-  </div>
+      <h2 class="subtitle">Chat Room</h2>
+
+      <div>
+        <input type="text" v-model="post.name" placeholder="name">
+        <input type="text" v-model="post.message" placeholder="message">
+        <button class="button--green" @click="add">add</button>
+      </div>
+
+      <ul>
+        <li v-for="(list, index) in chats" :key="index.id">
+          <template v-if="list.id !== editId">
+            <!-- id: {{list.id}} -->
+            name: {{list.data().name}}
+            message: {{list.data().message}}
+          </template>
+          <template v-else>
+            <!-- id: {{list.id}} -->
+            <input type="text" v-model="list.data().name" placeholder="name">
+            <input type="text" v-model="list.data().message" placeholder="message">
+          </template>
+          <button class="button--green" @click="edit(list)">edit</button>
+          <button class="button--green" @click="del(list)">delete</button>
+        </li>
+      </ul>
+
+    </div>
+  </section>
 </template>
 
 <script>
 import firebase from '~/plugins/firebase'
-// import nativeToast from 'native-toast'
-
-// nativeToast({
-//   message: 'wait wait!',
-//   position: 'north-east',
-//   // Self destroy in 5 seconds
-//   timeout: 5000,
-//   type: 'warning'
-// })
-
 const firestore = firebase.firestore()
-const settings = { timestampsInSnapshots: true }
-firestore.settings(settings)
+// const settings = { timestampsInSnapshots: true }
+// firestore.settings(settings)
 
 export default {
   data () {
     return {
-      test: ''
+      editId: '',
+      post: {
+        name: '',
+        message: ''
+      }
+    }
+  },
+  computed: {
+    state () {
+      return this.$store.state
+    },
+    chats () {
+      return this.$store.state.chat.chats
     }
   },
   methods: {
-    add () {
-      firestore.collection("users").add({
-          first: "Ada",
-          last: "Lovelace",
-          born: 1815
-      })
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      })
+    addCount () {
+      this.$store.commit('increment')
     },
 
-    get () {
-      firestore.collection("users")
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          // console.log(`${doc.id} => ${doc.data()}`)
-          // console.log(doc.id, doc.data())
-          console.log(doc.id)
-        })
-      })
-      .catch(error => {
-        console.log("Error getting documents: ", error)
-      })
+    getDoc () {
+      this.$store.commit('chat/getDoc')
+    },
+
+    add () {
+      this.$store.commit('chat/add', this.post)
+    },
+
+    del (list) {
+      firestore.collection('chats').doc(list.id).delete()
+    },
+
+    edit (list) {
+      this.editId = list.id
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getDoc()
+    })
+  },
+  mounted () {
   }
 }
 </script>

@@ -29,5 +29,19 @@ export const mutations = {
     .catch(function(error) {
       console.error('Error adding document: ', error);
     })
+  },
+
+  update (state, data) {
+    console.log(data)
+    firestore.collection('chats').doc(data.list.id).update({
+      name: data.patch.name,
+      message: data.patch.message
+    })
+    .then(() => {
+      data.editFlag.editId = ''
+    })
+    .catch((error) => {
+      console.error('Error adding document: ', error);
+    })
   }
 }

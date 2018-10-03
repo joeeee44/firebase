@@ -4,28 +4,36 @@
 
       <h2 class="subtitle">Chat Room</h2>
 
-      <div>
-        <input type="text" v-model="post.name" placeholder="name">
-        <input type="text" v-model="post.message" placeholder="message">
-        <button class="button--green" @click="add">add</button>
-      </div>
-
       <ul>
+        <li>
+          <div class="cell"><span>id</span></div>
+          <div class="cell"><span>name</span></div>
+          <div class="cell"><span>message</span></div>
+        </li>
+
         <li v-for="(list, index) in chats" :key="index.id">
-          <template v-if="list.id !== editId">
-            <!-- id: {{list.id}} -->
-            name: {{list.data().name}}
-            message: {{list.data().message}}
+          <template v-if="list.id !== editFlag.editId">
+            <div class="cell"><span>{{list.id}}</span></div>
+            <div class="cell"><span>{{list.data().name}}</span></div>
+            <div class="cell"><span>{{list.data().message}}</span></div>
+            <button class="button--green" @click="edit(list)">edit</button>
+            <button class="button--green" @click="del(list)">delete</button>
           </template>
           <template v-else>
-            <!-- id: {{list.id}} -->
-            <input type="text" v-model="list.data().name" placeholder="name">
-            <input type="text" v-model="list.data().message" placeholder="message">
+            <div class="cell"><span>{{list.id}}</span></div>
+            <div class="cell"><input type="text" v-model="patch.name" placeholder="name"></div>
+            <div class="cell"><input type="text" v-model="patch.message" placeholder="message"></div>
+            <button class="button--green" @click="cancel(list)">cancel</button>
+            <button class="button--green" @click="update(list)">update</button>
           </template>
-          <button class="button--green" @click="edit(list)">edit</button>
-          <button class="button--green" @click="del(list)">delete</button>
         </li>
       </ul>
+
+      <div class="post">
+        <div class="cell"><input type="text" v-model="post.name" placeholder="name"></div>
+        <div class="cell"><input type="text" v-model="post.message" placeholder="message"></div>
+        <button class="button--green" @click="add">add</button>
+      </div>
 
     </div>
   </section>
@@ -40,8 +48,14 @@ const firestore = firebase.firestore()
 export default {
   data () {
     return {
-      editId: '',
+      editFlag: {
+        editId: ''
+      },
       post: {
+        name: '',
+        message: ''
+      },
+      patch: {
         name: '',
         message: ''
       }
@@ -73,7 +87,23 @@ export default {
     },
 
     edit (list) {
-      this.editId = list.id
+      this.editFlag.editId = list.id
+      this.patch.name = list.data().name
+      this.patch.message = list.data().message
+    },
+
+    cancel (list) {
+      this.editFlag.editId = ''
+    },
+
+    update (list) {
+      this.$store.commit('chat/update', {
+        list: list,
+        patch: this.patch,
+        editFlag: this.editFlag
+      })
+      console.log(this.patch.message)
+      console.log(list.id)
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -87,4 +117,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+button {
+  width: 100px;
+  // outline: 0;
+}
+.cell {
+  width: 200px;
+  border: solid 1px #ccc;
+  text-align: left;
+  span {
+    padding: 10px;
+    display: block;
+  }
+}
+input {
+  width: 100%;
+  font-size: 15px;
+  margin: 0;
+  border: 0;
+}
+ul {
+  font-size: 15px;
+  li {
+    display: flex;
+  }
+}
+
+.post {
+  display: flex;
+  margin: 20px 0;
+}
 </style>

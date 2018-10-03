@@ -9,6 +9,7 @@
         Sign in
       </h2>
       <input type="text" placeholder="Email" v-model="email">
+      <!-- <multiselect v&#45;model="password" :options="test" label="name"></multiselect> -->
       <input type="password" placeholder="Password" v-model="password">
       <button class="button--grey" @click="signIn">Signin</button>
       <p>You don't have an account?
@@ -26,7 +27,14 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      test: [
+        { name: 'A', value: 1 },
+        { name: 'B', value: 2 },
+        { name: 'C', value: 3 },
+        { name: 'D', value: 4 },
+        { name: 'E', value: 5 }
+      ]
     }
   },
   components: {

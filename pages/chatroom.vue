@@ -2,7 +2,7 @@
   <section class="container">
     <div>
 
-      <h2 class="subtitle">Chat Room</h2>
+      <nuxt-link to="/home"><h2 class="subtitle">Chat Room</h2></nuxt-link>
 
       <ul>
         <li>

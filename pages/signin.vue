@@ -3,7 +3,7 @@
     <div>
       <app-logo/>
       <h1 class="title">
-        <nuxt-link to="/">joeeee</nuxt-link>
+        <nuxt-link to="/home">joeeee</nuxt-link>
       </h1>
       <h2 class="subtitle">
         Sign in
